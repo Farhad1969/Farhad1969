@@ -1,7 +1,7 @@
 import socket
 import threading
 
-SERVER_IP = '0.0.0.0'
+SERVER_IP = '0.0.0.0'  # Listen on all interfaces
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
 
@@ -11,11 +11,12 @@ def handle_client(sock):
     while True:
         try:
             message, client_address = sock.recvfrom(BUFFER_SIZE)
+            print(f"Received message from {client_address}: {message.decode()}")
             if client_address not in clients:
                 clients.append(client_address)
             broadcast_message(sock, message, client_address)
-        except:
-            print("An error occurred.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
             sock.close()
             break
 
